@@ -6,24 +6,22 @@ require 'httparty'
 class LessAccountingExporter
   include HTTParty
 
-  def self.export_all(output_file = "output.json", config_file = nil)
-    exporter = new(config_file)
+  def export_all(output_file = "output.json")
     all_data = {}
-    all_data[:businesses] = exporter.get_businesses
-    all_data[:bank_accounts] = exporter.get_bank_accounts
-    all_data[:contacts] = exporter.get_contacts
-    all_data[:currencies] = exporter.get_currencies
-    all_data[:expense_categories] = exporter.get_expense_categories
-    all_data[:expenses] = exporter.get_expenses
-    all_data[:expenses_uncategorized] = exporter.get_expenses_uncategorized
-    all_data[:invoices] = exporter.get_invoices
-    all_data[:notes] = exporter.get_notes
-    all_data[:payments] = exporter.get_payments
-    all_data[:sales_taxes] = exporter.get_sales_taxes
-    all_data[:tags] = exporter.get_tags
-    File.write(output_file) do |f|
-      f << all_data.to_json
-    end
+    all_data[:businesses] = get_businesses
+    all_data[:bank_accounts] = get_bank_accounts
+    all_data[:contacts] = get_contacts
+    all_data[:currencies] = get_currencies
+    all_data[:expense_categories] = get_expense_categories
+    all_data[:expenses] = get_expenses
+    all_data[:expenses_uncategorized] = get_expenses_uncategorized
+    all_data[:invoices] = get_invoices
+    all_data[:notes] = get_notes
+    all_data[:payments] = get_payments
+    all_data[:sales_taxes] = get_sales_taxes
+    all_data[:tags] = get_tags
+
+    File.write(output_file, all_data.to_json)
   end
 
   def initialize(config_file = nil)
@@ -43,62 +41,74 @@ class LessAccountingExporter
 
   def get_businesses
     path = "/businesses/get_businesses.json"
-    get(path, false)
+    puts "running get_businesses (unpaged)"
+    @get_businesses ||= get(path, false)
   end
 
   def get_bank_accounts
     path = "/bank_accounts.json"
-    get(path, false)
+    puts "running get_bank_accounts (unpaged)"
+    @get_bank_accounts ||= get(path, false)
   end
 
   def get_contacts
     path = "/contacts.json"
-    get(path, true)
+    puts "running get_contacts (paged)"
+    @get_contacts ||= get(path, true)
   end
 
   def get_currencies
     path = "/currencies.json"
-    get(path, false)
+    puts "running get_currencies (unpaged)"
+    @get_currencies ||= get(path, false)
   end
 
   def get_expense_categories
     path = "/expense_categories.json"
-    get(path, false)
+    puts "running get_expense_categories (unpaged)"
+    @get_expense_categories ||= get(path, false)
   end
 
   def get_expenses
     path = "/expenses.json"
-    get(path, true)
+    puts "running get_expenses (paged)"
+    @get_expenses ||= get(path, true)
   end
 
   def get_expenses_uncategorized
     path = "/expenses/uncategorized.json"
-    get(path, false)
+    puts "running get_expenses_uncategorized (unpaged)"
+    @get_expenses_uncategorized ||= get(path, false)
   end
 
   def get_invoices
     path = "/invoices.json"
-    get(path, true)
+    puts "running get_invoices (paged)"
+    @get_invoices ||= get(path, true)
   end
 
   def get_notes
     path = "/notes.json"
-    get(path, true)
+    puts "running get_notes (paged)"
+    @get_notes ||= get(path, true)
   end
 
   def get_payments
     path = "/payments.json"
-    get(path, true)
+    puts "running get_payments (paged)"
+    @get_payments ||= get(path, true)
   end
 
   def get_sales_taxes
     path = "/sales_taxes.json"
-    get(path, false)
+    puts "running get_sales_taxes (unpaged)"
+    @get_sales_taxes ||= get(path, false)
   end
 
   def get_tags
     path = "/tags.json"
-    get(path, false)
+    puts "run get_tags (unpaged)ning"
+    @get_tags ||= get(path, false)
   end
 
 private

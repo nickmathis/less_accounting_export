@@ -1,0 +1,4 @@
+subdomain: mysubdomain # you login at mysubdomain.lessaccounting.com
+username: user # your username
+password: pass # your password
+api_key: aaa00000-1111-2bb2-c333-44dddd444444 # see https://welcome.lessaccounting.com/api or https://<mysubdomain>.lessaccounting.com/settings?edit=api_keys
